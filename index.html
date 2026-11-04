@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📝 Finding Inverse Functions - رياضيات 11 متقدم | Mr. Mohammed Hesham</title>
+<meta name="description" content="امتحان كتابي عن إيجاد الدوال العكسية جبرياً وبيانياً - رياضيات 11 متقدم">
+<meta name="author" content="Mr. Mohammed Hesham">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Inter:wght@400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); }
+body.en-mode { font-family: 'Inter', sans-serif; direction: ltr; }
+.arabic-math { font-family: 'Amiri', 'Cairo', serif; }
+.timer-warning { color: #dc2626 !important; animation: pulse 1s infinite; }
+@keyframes pulse { 50% { opacity: 0.7; } }
+@media print { .no-print { display: none !important; } }
+.lang-switch { position: fixed; top: 16px; left: 16px; z-index: 100; background: white; padding: 6px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); display: flex; gap: 4px; border: 2px solid #d97706; }
+body.en-mode .lang-switch { left: auto; right: 16px; }
+.lang-btn { padding: 6px 14px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: all 0.3s; border: none; font-size: 0.875rem; background: transparent; color: #6b7280; }
+.lang-btn.active { background: #d97706; color: white; box-shadow: 0 2px 6px rgba(217,119,6,0.4); }
+.shuffle-badge { display: inline-block; background: linear-gradient(135deg, #d97706, #b45309); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; margin-right: 8px; }
+body.en-mode .shuffle-badge { margin-right: 0; margin-left: 8px; }
+.math-display { display: inline-block; direction: ltr; font-family: 'Amiri', serif; font-size: 1.1em; padding: 2px 6px; background: #fef3c7; border-radius: 4px; margin: 2px; color: #92400e; font-weight: 600; }
+.save-indicator { position: fixed; bottom: 20px; left: 20px; z-index: 200; background: #10b981; color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+body.en-mode .save-indicator { left: auto; right: 20px; }
+.save-indicator.show { opacity: 1; }
+.formula-box { background: #fef3c7; border: 2px solid #f59e0b; border-radius: 8px; padding: 12px; margin: 10px 0; font-family: 'Amiri', serif; direction: ltr; text-align: center; }
+.svg-graph { display: block; margin: 12px auto; background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 8px; max-width: 100%; }
+.graph-container { text-align: center; margin: 10px 0; }
+.module-badge { display: inline-block; padding: 4px 16px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; margin-bottom: 8px; }
+.module-1 { background: #fef3c7; color: #92400e; }
+.module-2 { background: #dbeafe; color: #1e40af; }
+.module-3 { background: #fce7f3; color: #9f1239; }
+.module-4 { background: #ecfdf5; color: #065f46; }
+.module-5 { background: #ede9fe; color: #5b21b6; }
+.question-card { background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: all 0.3s; }
+.question-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+.answer-area { width: 100%; min-height: 100px; padding: 12px; border: 2px dashed #d97706; border-radius: 8px; font-size: 1rem; font-family: 'Amiri', serif; direction: ltr; text-align: left; background: #fffbeb; resize: vertical; margin-top: 10px; }
+.answer-area:focus { outline: none; border-color: #f59e0b; background: #fef3c7; }
+.solution-box { display: none; background: #f0fdf4; border: 2px solid #16a34a; border-radius: 8px; padding: 15px; margin-top: 15px; animation: slideDown 0.3s ease-out; }
+.solution-box.show { display: block; }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+.show-answer-btn { background: #d97706; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: all 0.3s; margin-top: 10px; }
+.show-answer-btn:hover { background: #b45309; transform: translateY(-1px); }
+.success-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-weight: bold; font-size: 0.875rem; }
+.grade-excellent { background: #dcfce7; color: #166534; }
+.grade-good { background: #fef3c7; color: #92400e; }
+.grade-pass { background: #dbeafe; color: #1e40af; }
+.grade-fail { background: #fee2e2; color: #991b1b; }
+</style>
+</head>
+<body class="p-4 md:p-8 min-h-screen">
+
+<div class="lang-switch no-print">
+<button class="lang-btn active" onclick="setLanguage('ar')" id="btn-ar">عربي</button>
+<button class="lang-btn" onclick="setLanguage('en')" id="btn-en">EN</button>
+</div>
+
+<div id="saveIndicator" class="save-indicator">💾 <span data-ar="تم الحفظ" data-en="Saved">تم الحفظ</span></div>
+
+<div id="timer-container" class="max-w-5xl mx-auto mb-4 text-center no-print">
+<div class="bg-white p-4 rounded-2xl shadow-lg inline-block border-2 border-amber-100">
+<span class="text-gray-600 ml-2">⏰ <span data-ar="الوقت المتبقي:" data-en="Time Left:">الوقت المتبقي:</span></span>
+<span id="timer" class="text-2xl font-bold text-amber-700 font-mono">90:00</span>
+<span class="shuffle-badge">📝 <span data-ar="الدوال العكسية" data-en="Inverse Functions">الدوال العكسية</span> - 12 <span data-ar="سؤالاً كتابياً" data-en="Written Questions">سؤالاً كتابياً</span></span>
+</div>
+</div>
+
+<div class="max-w-5xl mx-auto mb-6 flex flex-wrap gap-3 justify-center no-print">
+<button onclick="showAllSolutions()" class="bg-amber-700 hover:bg-amber-800 text-white px-5 py-2 rounded-xl font-medium transition shadow">📖 <span data-ar="إظهار جميع الحلول" data-en="Show All Solutions">إظهار جميع الحلول</span></button>
+<button onclick="window.print()" class="bg-gray-700 hover:bg-gray-900 text-white px-5 py-2 rounded-xl font-medium transition shadow">🖨️ <span data-ar="طباعة" data-en="Print">طباعة</span></button>
+<button onclick="clearAllAnswers()" class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-xl font-medium transition shadow">🗑️ <span data-ar="مسح جميع الإجابات" data-en="Clear All Answers">مسح جميع الإجابات</span></button>
+</div>
+
+<header class="max-w-5xl mx-auto bg-white p-8 rounded-3xl shadow-2xl mb-8 border-4 border-amber-500">
+<div class="text-center">
+<div class="inline-block bg-amber-700 text-white px-6 py-2 rounded-full text-sm font-bold mb-4">MATH 11 ADVANCED - QUESTION 22 (WRITTEN)</div>
+<h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">📝 <span data-ar="إيجاد الدوال العكسية جبرياً وبيانياً" data-en="Finding Inverse Functions Algebraically and Graphically">إيجاد الدوال العكسية جبرياً وبيانياً</span></h1>
+<h2 class="text-xl text-amber-700 font-semibold mb-2"><span data-ar="رياضيات 11 متقدم - مثال 2 وتمارين 2A-2C (صفحة 765)" data-en="Grade 11 Advanced - Example 2 & Exercises 2A-2C (Page 765)">رياضيات 11 متقدم - مثال 2 وتمارين 2A-2C (صفحة 765)</span></h2>
+<p class="text-gray-600 mb-4"><span data-ar="Written Exam - Show All Work" data-en="Written Exam - Show All Work">امتحان كتابي - أظهر جميع خطوات الحل</span></p>
+<p class="text-sm text-green-600 font-semibold">💾 <span data-ar="يتم حفظ تقدمك تلقائياً - 12 سؤالاً كتابياً في 5 أقسام" data-en="Your progress is auto-saved - 12 written questions in 5 sections">يتم حفظ تقدمك تلقائياً - 12 سؤالاً كتابياً في 5 أقسام</span></p>
+</div>
+<div class="mt-6 flex flex-wrap justify-center gap-4 text-sm text-gray-600">
+<span>📅 <span data-ar="التاريخ:" data-en="Date:">التاريخ:</span> <input type="text" id="examDate" class="border-b-2 border-amber-300 bg-transparent w-32 text-center"></span>
+<span>😊 <span data-ar="الاسم:" data-en="Name:">الاسم:</span> <input type="text" id="studentName" class="border-b-2 border-amber-300 bg-transparent w-40 text-center" data-placeholder-ar="اكتب اسمك" data-placeholder-en="Your name" placeholder="اكتب اسمك"></span>
+<span>🏫 <span data-ar="الشعبة:" data-en="Class:">الشعبة:</span> <input type="text" id="studentClass" class="border-b-2 border-amber-300 bg-transparent w-32 text-center" data-placeholder-ar="الشعبة" data-placeholder-en="Class" placeholder="الشعبة"></span>
+<span>⏰ <span data-ar="المدة: 90 دقيقة" data-en="Duration: 90 min">المدة: 90 دقيقة</span></span>
+<span>📊 <span data-ar="المجموع: 100 درجة" data-en="Total: 100 points">المجموع: 100 درجة</span></span>
+</div>
+</header>
+
+<div class="max-w-5xl mx-auto mb-6 bg-white p-4 rounded-xl shadow-lg border-2 border-amber-200 no-print">
+<h3 class="font-bold text-lg mb-3 text-amber-800 text-center">📐 <span data-ar="خطوات إيجاد الدالة العكسية" data-en="Steps to Find Inverse Function">خطوات إيجاد الدالة العكسية</span></h3>
+<div class="grid md:grid-cols-4 gap-3 text-sm">
+<div class="formula-box">
+<strong><span data-ar="الخطوة 1:" data-en="Step 1:">الخطوة 1:</span></strong><br>
+<span data-ar="استبدل f(x) بـ y" data-en="Replace f(x) with y">استبدل f(x) بـ y</span>
+</div>
+<div class="formula-box">
+<strong><span data-ar="الخطوة 2:" data-en="Step 2:">الخطوة 2:</span></strong><br>
+<span data-ar="بدّل x و y" data-en="Swap x and y">بدّل x و y</span>
+</div>
+<div class="formula-box">
+<strong><span data-ar="الخطوة 3:" data-en="Step 3:">الخطوة 3:</span></strong><br>
+<span data-ar="حل المعادلة لـ y" data-en="Solve equation for y">حل المعادلة لـ y</span>
+</div>
+<div class="formula-box">
+<strong><span data-ar="الخطوة 4:" data-en="Step 4:">الخطوة 4:</span></strong><br>
+<span data-ar="استبدل y بـ f⁻¹(x)" data-en="Replace y with f⁻¹(x)">استبدل y بـ f⁻¹(x)</span>
+</div>
+</div>
+</div>
+
+<main class="max-w-5xl mx-auto space-y-8" id="exam-content"></main>
+
+<div class="text-center no-print pb-8 mt-8">
+<button onclick="gradeExam()" class="bg-gradient-to-r from-amber-700 to-orange-600 hover:from-amber-800 hover:to-orange-700 text-white text-lg px-12 py-4 rounded-2xl font-bold shadow-xl transition transform hover:scale-105">🎯 <span data-ar="احسب نتيجتي!" data-en="Calculate My Score!">احسب نتيجتي!</span></button>
+</div>
+
+<div id="results-panel" class="max-w-5xl mx-auto mt-8 bg-white p-8 rounded-3xl shadow-2xl border-4 border-amber-500 hidden no-print">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">🏆 <span data-ar="نتيجتك يا بطل!" data-en="Your Result, Champion!">نتيجتك يا بطل!</span> 🏆</h2>
+<div class="grid md:grid-cols-3 gap-4 mb-6">
+<div class="bg-amber-50 p-4 rounded-xl text-center"><p>😊 <span data-ar="الاسم" data-en="Name">الاسم</span></p><p id="res-name" class="font-bold text-xl text-amber-700">-</p></div>
+<div class="bg-orange-50 p-4 rounded-xl text-center"><p>📅 <span data-ar="التاريخ" data-en="Date">التاريخ</span></p><p id="res-date" class="font-bold text-xl text-orange-700">-</p></div>
+<div class="bg-amber-50 p-4 rounded-xl text-center"><p>🌟 <span data-ar="المجموع" data-en="Total">المجموع</span></p><p id="res-total" class="font-bold text-3xl text-amber-700">0 / 100</p></div>
+</div>
+<div class="text-center mb-6">
+<span id="success-badge" class="success-badge grade-excellent">-</span>
+<p id="success-percent" class="text-4xl font-bold text-amber-700 mt-2">0%</p>
+<p class="text-sm text-gray-500"><span data-ar="نسبة الإنجاز (بناءً على الإجابات المقدمة)" data-en="Completion rate (based on answers provided)">نسبة الإنجاز (بناءً على الإجابات المقدمة)</span></p>
+</div>
+<div class="bg-gray-50 p-6 rounded-xl mb-6">
+<h3 class="font-bold text-lg mb-4 text-gray-800">📊 <span data-ar="أداؤك في كل قسم:" data-en="Your Performance by Section:">أداؤك في كل قسم:</span></h3>
+<div class="space-y-3" id="sections-performance"></div>
+</div>
+<div class="text-center">
+<button id="sendEmailBtn" onclick="sendResultsToEmail()" class="bg-gradient-to-r from-amber-700 to-orange-600 text-white text-lg px-8 py-3 rounded-2xl font-bold shadow-xl transition">📧 <span data-ar="أرسل النتيجة للمعلم" data-en="Send Result to Teacher">أرسل النتيجة للمعلم</span></button>
+<p id="emailStatus" class="text-sm mt-2 text-center font-medium"></p>
+</div>
+</div>
+
+<footer class="max-w-5xl mx-auto mt-10 mb-8 text-center text-gray-500 text-sm no-print">
+© Inverse Functions - Grade 11 Advanced | Mr. Mohammed Hesham 📝
+</footer>
+
+<script>
+const PUBLIC_KEY = "Rb3Lq8tXaFmc5YHUH";
+const SERVICE_ID = "service_w15m64i";
+const TEMPLATE_ID = "template_5b0u2tq";
+const TARGET_EMAIL = "mohammedhesham872@gmail.com";
+emailjs.init(PUBLIC_KEY);
+
+const STORAGE_KEY = 'inverse_functions_grade11_v1';
+const TOTAL_TIME = 5400;
+const TOTAL_QUESTIONS = 12;
+const TOTAL_SECTIONS = 5;
+
+let answersVisible = false;
+let saveIndicatorTimeout = null;
+let currentLang = 'ar';
+let timeRemaining = TOTAL_TIME;
+let timerInterval;
+let examData;
+
+function showSaveIndicator() {
+    const indicator = document.getElementById('saveIndicator');
+    indicator.classList.add('show');
+    if (saveIndicatorTimeout) clearTimeout(saveIndicatorTimeout);
+    saveIndicatorTimeout = setTimeout(() => indicator.classList.remove('show'), 1500);
+}
+
+function saveState(showIndicator = true) {
+    try {
+        const answers = {};
+        for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+            const input = document.getElementById('answer_'+i);
+            if (input) answers[i] = input.value;
+        }
+        const state = {
+            lang: currentLang,
+            studentName: document.getElementById('studentName').value,
+            studentClass: document.getElementById('studentClass').value,
+            examDate: document.getElementById('examDate').value,
+            answers: answers,
+            timeRemaining: timeRemaining,
+            savedAt: Date.now()
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        if (showIndicator) showSaveIndicator();
+    } catch (e) { console.error('Save error:', e); }
+}
+
+function loadState() {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved ? JSON.parse(saved) : null;
+    } catch (e) { return null; }
+}
+
+function restoreAnswers(answers) {
+    if (!answers) return;
+    for (const [idx, val] of Object.entries(answers)) {
+        const input = document.getElementById('answer_'+idx);
+        if (input) input.value = val;
+    }
+}
+
+function clearAllAnswers() {
+    const msg = currentLang === 'ar' ? '⚠️ هل أنت متأكد من مسح جميع الإجابات؟' : '⚠️ Clear all answers?';
+    if (confirm(msg)) {
+        for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+            const input = document.getElementById('answer_'+i);
+            if (input) input.value = '';
+        }
+        document.querySelectorAll('.solution-box').forEach(el => el.classList.remove('show'));
+        localStorage.removeItem(STORAGE_KEY);
+    }
+}
+
+function setupInputListeners() {
+    ['studentName', 'studentClass', 'examDate'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', () => saveState(false));
+            el.addEventListener('blur', () => saveState());
+        }
+    });
+    for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+        const input = document.getElementById('answer_'+i);
+        if (input) {
+            input.addEventListener('input', () => saveState(false));
+            input.addEventListener('blur', () => saveState());
+        }
+    }
+}
+
+// ==================== SVG DIAGRAMS - ACCURATE INVERSE FUNCTION VISUALS ====================
+const svgGraphs = {
+    inverse_steps: `<svg class="svg-graph" width="500" height="380" viewBox="0 0 500 380" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="490" height="370" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="25" text-anchor="middle" font-size="14" fill="#92400e" font-weight="bold">📐 خطوات إيجاد الدالة العكسية</text>
+        <rect x="20" y="45" width="460" height="55" rx="6" fill="#fde68a" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="65" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">Step 1: Replace f(x) with y</text>
+        <text x="250" y="85" text-anchor="middle" font-size="10" fill="#92400e">استبدل f(x) بـ y</text>
+        <text x="250" y="98" text-anchor="middle" font-size="10" fill="#92400e">Example: y = (x-1)/(x+2)</text>
+        <rect x="20" y="110" width="460" height="55" rx="6" fill="#fde68a" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="130" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">Step 2: Swap x and y</text>
+        <text x="250" y="150" text-anchor="middle" font-size="10" fill="#92400e">بدّل x و y</text>
+        <text x="250" y="163" text-anchor="middle" font-size="10" fill="#92400e">x = (y-1)/(y+2)</text>
+        <rect x="20" y="175" width="460" height="55" rx="6" fill="#fde68a" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="195" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">Step 3: Solve for y</text>
+        <text x="250" y="215" text-anchor="middle" font-size="10" fill="#92400e">حل المعادلة لـ y</text>
+        <text x="250" y="228" text-anchor="middle" font-size="10" fill="#92400e">x(y+2) = y-1 → xy + 2x = y - 1 → y(x-1) = -2x-1 → y = (-2x-1)/(x-1)</text>
+        <rect x="20" y="240" width="460" height="55" rx="6" fill="#fde68a" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="260" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">Step 4: Replace y with f⁻¹(x)</text>
+        <text x="250" y="280" text-anchor="middle" font-size="10" fill="#92400e">استبدل y بـ f⁻¹(x)</text>
+        <text x="250" y="293" text-anchor="middle" font-size="10" fill="#92400e">f⁻¹(x) = (-2x-1)/(x-1) = (2x+1)/(1-x)</text>
+        <rect x="20" y="305" width="460" height="60" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="325" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">⚠️ Important: Domain Restrictions</text>
+        <text x="250" y="343" text-anchor="middle" font-size="10" fill="#92400e">• Domain of f = Range of f⁻¹</text>
+        <text x="250" y="358" text-anchor="middle" font-size="10" fill="#92400e">• Range of f = Domain of f⁻¹</text>
+    </svg>`,
+    
+    example2a: `<svg class="svg-graph" width="500" height="420" viewBox="0 0 500 420" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="490" height="410" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+        <text x="250" y="25" text-anchor="middle" font-size="14" fill="#1e40af" font-weight="bold">📝 مثال 2a: f(x) = (x-1)/(x+2)</text>
+        <!-- Step 1 -->
+        <rect x="20" y="45" width="460" height="50" rx="6" fill="#bfdbfe" stroke="#2563eb" stroke-width="2"/>
+        <text x="250" y="65" text-anchor="middle" font-size="11" fill="#1e40af" font-weight="bold">Step 1: y = (x-1)/(x+2)</text>
+        <text x="250" y="85" text-anchor="middle" font-size="10" fill="#1e40af">Domain: x ≠ -2, Range: y ≠ 1</text>
+        <!-- Step 2 -->
+        <rect x="20" y="105" width="460" height="50" rx="6" fill="#bfdbfe" stroke="#2563eb" stroke-width="2"/>
+        <text x="250" y="125" text-anchor="middle" font-size="11" fill="#1e40af" font-weight="bold">Step 2: x = (y-1)/(y+2)</text>
+        <text x="250" y="145" text-anchor="middle" font-size="10" fill="#1e40af">Swap x and y</text>
+        <!-- Step 3 -->
+        <rect x="20" y="165" width="460" height="80" rx="6" fill="#bfdbfe" stroke="#2563eb" stroke-width="2"/>
+        <text x="250" y="185" text-anchor="middle" font-size="11" fill="#1e40af" font-weight="bold">Step 3: Solve for y</text>
+        <text x="250" y="205" text-anchor="middle" font-size="10" fill="#1e40af">x(y+2) = y-1</text>
+        <text x="250" y="222" text-anchor="middle" font-size="10" fill="#1e40af">xy + 2x = y - 1</text>
+        <text x="250" y="239" text-anchor="middle" font-size="10" fill="#1e40af">xy - y = -2x - 1 → y(x-1) = -(2x+1)</text>
+        <!-- Step 4 -->
+        <rect x="20" y="255" width="460" height="50" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="275" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">Step 4: f⁻¹(x) = (2x+1)/(1-x)</text>
+        <text x="250" y="295" text-anchor="middle" font-size="10" fill="#92400e">Domain: x ≠ 1, Range: y ≠ -2</text>
+        <!-- Graph -->
+        <rect x="20" y="315" width="460" height="90" rx="6" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+        <text x="250" y="335" text-anchor="middle" font-size="11" fill="#065f46" font-weight="bold">📊 Graph: f and f⁻¹ are symmetric about y = x</text>
+        <text x="250" y="355" text-anchor="middle" font-size="10" fill="#065f46">f(x) has VA: x=-2, HA: y=1</text>
+        <text x="250" y="372" text-anchor="middle" font-size="10" fill="#065f46">f⁻¹(x) has VA: x=1, HA: y=-2</text>
+        <text x="250" y="392" text-anchor="middle" font-size="10" fill="#065f46">Intersection with y=x: solve (x-1)/(x+2) = x → x² + x - 1 = 0</text>
+    </svg>`,
+    
+    example2b: `<svg class="svg-graph" width="500" height="400" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="490" height="390" rx="12" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+        <text x="250" y="25" text-anchor="middle" font-size="14" fill="#9f1239" font-weight="bold">📝 مثال 2b: f(x) = √(x-4)</text>
+        <!-- Step 1 -->
+        <rect x="20" y="45" width="460" height="50" rx="6" fill="#fbcfe8" stroke="#ec4899" stroke-width="2"/>
+        <text x="250" y="65" text-anchor="middle" font-size="11" fill="#9f1239" font-weight="bold">Step 1: y = √(x-4)</text>
+        <text x="250" y="85" text-anchor="middle" font-size="10" fill="#9f1239">Domain: x ≥ 4, Range: y ≥ 0</text>
+        <!-- Step 2 -->
+        <rect x="20" y="105" width="460" height="50" rx="6" fill="#fbcfe8" stroke="#ec4899" stroke-width="2"/>
+        <text x="250" y="125" text-anchor="middle" font-size="11" fill="#9f1239" font-weight="bold">Step 2: x = √(y-4)</text>
+        <text x="250" y="145" text-anchor="middle" font-size="10" fill="#9f1239">Swap x and y, note x ≥ 0</text>
+        <!-- Step 3 -->
+        <rect x="20" y="165" width="460" height="60" rx="6" fill="#fbcfe8" stroke="#ec4899" stroke-width="2"/>
+        <text x="250" y="185" text-anchor="middle" font-size="11" fill="#9f1239" font-weight="bold">Step 3: Solve for y</text>
+        <text x="250" y="205" text-anchor="middle" font-size="10" fill="#9f1239">x² = y - 4 (square both sides, x ≥ 0)</text>
+        <text x="250" y="222" text-anchor="middle" font-size="10" fill="#9f1239">y = x² + 4</text>
+        <!-- Step 4 -->
+        <rect x="20" y="235" width="460" height="50" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="255" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">Step 4: f⁻¹(x) = x² + 4, x ≥ 0</text>
+        <text x="250" y="275" text-anchor="middle" font-size="10" fill="#92400e">Domain: x ≥ 0, Range: y ≥ 4</text>
+        <!-- Graph -->
+        <rect x="20" y="295" width="460" height="90" rx="6" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+        <text x="250" y="315" text-anchor="middle" font-size="11" fill="#065f46" font-weight="bold">📊 Graph Analysis:</text>
+        <text x="250" y="335" text-anchor="middle" font-size="10" fill="#065f46">f(x) = √(x-4): starts at (4,0), increases slowly</text>
+        <text x="250" y="352" text-anchor="middle" font-size="10" fill="#065f46">f⁻¹(x) = x² + 4, x≥0: starts at (0,4), parabola right half</text>
+        <text x="250" y="372" text-anchor="middle" font-size="10" fill="#065f46">Symmetric about y = x line</text>
+    </svg>`,
+    
+    exercise2A: `<svg class="svg-graph" width="500" height="380" viewBox="0 0 500 380" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="490" height="370" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+        <text x="250" y="25" text-anchor="middle" font-size="14" fill="#065f46" font-weight="bold">📝 تمرين 2A: f(x) = -16 + x³</text>
+        <!-- Step 1 -->
+        <rect x="20" y="45" width="460" height="50" rx="6" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="250" y="65" text-anchor="middle" font-size="11" fill="#065f46" font-weight="bold">Step 1: y = x³ - 16</text>
+        <text x="250" y="85" text-anchor="middle" font-size="10" fill="#065f46">Domain: ℝ, Range: ℝ (cubic function)</text>
+        <!-- Step 2 -->
+        <rect x="20" y="105" width="460" height="50" rx="6" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="250" y="125" text-anchor="middle" font-size="11" fill="#065f46" font-weight="bold">Step 2: x = y³ - 16</text>
+        <text x="250" y="145" text-anchor="middle" font-size="10" fill="#065f46">Swap x and y</text>
+        <!-- Step 3 -->
+        <rect x="20" y="165" width="460" height="60" rx="6" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <text x="250" y="185" text-anchor="middle" font-size="11" fill="#065f46" font-weight="bold">Step 3: Solve for y</text>
+        <text x="250" y="205" text-anchor="middle" font-size="10" fill="#065f46">x + 16 = y³</text>
+        <text x="250" y="222" text-anchor="middle" font-size="10" fill="#065f46">y = ∛(x + 16)</text>
+        <!-- Step 4 -->
+        <rect x="20" y="235" width="460" height="50" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="255" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">Step 4: f⁻¹(x) = ∛(x + 16)</text>
+        <text x="250" y="275" text-anchor="middle" font-size="10" fill="#92400e">Domain: ℝ, Range: ℝ</text>
+        <!-- Graph -->
+        <rect x="20" y="295" width="460" height="65" rx="6" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+        <text x="250" y="315" text-anchor="middle" font-size="11" fill="#065f46" font-weight="bold">📊 Graph Analysis:</text>
+        <text x="250" y="335" text-anchor="middle" font-size="10" fill="#065f46">f(x) = x³ - 16: cubic shifted down 16, passes through (0,-16), (∛16, 0)</text>
+        <text x="250" y="352" text-anchor="middle" font-size="10" fill="#065f46">f⁻¹(x) = ∛(x+16): cube root shifted left 16, passes through (-16, 0), (0, ∛16)</text>
+    </svg>`,
+    
+    exercise2B: `<svg class="svg-graph" width="500" height="400" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="490" height="390" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="250" y="25" text-anchor="middle" font-size="14" fill="#5b21b6" font-weight="bold">📝 تمرين 2B: f(x) = (x+7)/x</text>
+        <!-- Step 1 -->
+        <rect x="20" y="45" width="460" height="50" rx="6" fill="#ddd6fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="250" y="65" text-anchor="middle" font-size="11" fill="#5b21b6" font-weight="bold">Step 1: y = (x+7)/x = 1 + 7/x</text>
+        <text x="250" y="85" text-anchor="middle" font-size="10" fill="#5b21b6">Domain: x ≠ 0, Range: y ≠ 1</text>
+        <!-- Step 2 -->
+        <rect x="20" y="105" width="460" height="50" rx="6" fill="#ddd6fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="250" y="125" text-anchor="middle" font-size="11" fill="#5b21b6" font-weight="bold">Step 2: x = (y+7)/y</text>
+        <text x="250" y="145" text-anchor="middle" font-size="10" fill="#5b21b6">Swap x and y</text>
+        <!-- Step 3 -->
+        <rect x="20" y="165" width="460" height="70" rx="6" fill="#ddd6fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="250" y="185" text-anchor="middle" font-size="11" fill="#5b21b6" font-weight="bold">Step 3: Solve for y</text>
+        <text x="250" y="205" text-anchor="middle" font-size="10" fill="#5b21b6">xy = y + 7</text>
+        <text x="250" y="222" text-anchor="middle" font-size="10" fill="#5b21b6">xy - y = 7 → y(x-1) = 7 → y = 7/(x-1)</text>
+        <!-- Step 4 -->
+        <rect x="20" y="245" width="460" height="50" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="265" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">Step 4: f⁻¹(x) = 7/(x-1)</text>
+        <text x="250" y="285" text-anchor="middle" font-size="10" fill="#92400e">Domain: x ≠ 1, Range: y ≠ 0</text>
+        <!-- Graph -->
+        <rect x="20" y="305" width="460" height="75" rx="6" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+        <text x="250" y="325" text-anchor="middle" font-size="11" fill="#065f46" font-weight="bold">📊 Graph Analysis:</text>
+        <text x="250" y="345" text-anchor="middle" font-size="10" fill="#065f46">f(x) = 1 + 7/x: hyperbola with VA: x=0, HA: y=1</text>
+        <text x="250" y="362" text-anchor="middle" font-size="10" fill="#065f46">f⁻¹(x) = 7/(x-1): hyperbola with VA: x=1, HA: y=0</text>
+        <text x="250" y="377" text-anchor="middle" font-size="10" fill="#065f46">Note: f(x) = f⁻¹(x) when? Solve (x+7)/x = 7/(x-1) → x² - x - 7 = 7x → x² - 8x - 7 = 0</text>
+    </svg>`,
+    
+    exercise2C: `<svg class="svg-graph" width="500" height="420" viewBox="0 0 500 420" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="490" height="410" rx="12" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+        <text x="250" y="25" text-anchor="middle" font-size="14" fill="#991b1b" font-weight="bold">📝 تمرين 2C: f(x) = √(x²-20) - تحليل خاص</text>
+        <!-- Warning -->
+        <rect x="20" y="45" width="460" height="60" rx="6" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+        <text x="250" y="65" text-anchor="middle" font-size="11" fill="#991b1b" font-weight="bold">⚠️ Important: Check if function is one-to-one first!</text>
+        <text x="250" y="85" text-anchor="middle" font-size="10" fill="#991b1b">f(x) = √(x²-20) is NOT one-to-one on its full domain</text>
+        <text x="250" y="100" text-anchor="middle" font-size="10" fill="#991b1b">Domain: x² ≥ 20, so x ≤ -√20 or x ≥ √20</text>
+        <!-- Analysis -->
+        <rect x="20" y="115" width="460" height="70" rx="6" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+        <text x="250" y="135" text-anchor="middle" font-size="11" fill="#991b1b" font-weight="bold">Horizontal Line Test:</text>
+        <text x="250" y="155" text-anchor="middle" font-size="10" fill="#991b1b">f(5) = √(25-20) = √5</text>
+        <text x="250" y="172" text-anchor="middle" font-size="10" fill="#991b1b">f(-5) = √(25-20) = √5</text>
+        <text x="250" y="187" text-anchor="middle" font-size="10" fill="#991b1b">Same output for different inputs → NOT one-to-one!</text>
+        <!-- Restriction -->
+        <rect x="20" y="195" width="460" height="70" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="215" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">Solution: Restrict domain to x ≥ √20</text>
+        <text x="250" y="235" text-anchor="middle" font-size="10" fill="#92400e">Now f is one-to-one on [√20, ∞)</text>
+        <text x="250" y="252" text-anchor="middle" font-size="10" fill="#92400e">Range: [0, ∞)</text>
+        <!-- Finding inverse -->
+        <rect x="20" y="275" width="460" height="70" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="295" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">Finding inverse (with restricted domain):</text>
+        <text x="250" y="315" text-anchor="middle" font-size="10" fill="#92400e">y = √(x²-20) → y² = x² - 20 → x² = y² + 20 → x = √(y²+20)</text>
+        <text x="250" y="332" text-anchor="middle" font-size="10" fill="#92400e">f⁻¹(x) = √(x²+20), x ≥ 0</text>
+        <!-- Conclusion -->
+        <rect x="20" y="355" width="460" height="50" rx="6" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+        <text x="250" y="375" text-anchor="middle" font-size="11" fill="#065f46" font-weight="bold">✅ Final Answer: f⁻¹(x) = √(x²+20), x ≥ 0</text>
+        <text x="250" y="395" text-anchor="middle" font-size="10" fill="#065f46">Domain of f⁻¹: [0, ∞), Range of f⁻¹: [√20, ∞)</text>
+    </svg>`,
+    
+    horizontal_line_test: `<svg class="svg-graph" width="500" height="340" viewBox="0 0 500 340" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="490" height="330" rx="12" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+        <text x="250" y="25" text-anchor="middle" font-size="14" fill="#9f1239" font-weight="bold">📏 اختبار الخط الأفقي - Horizontal Line Test</text>
+        <!-- One-to-one function -->
+        <rect x="20" y="45" width="220" height="130" rx="6" fill="#fbcfe8" stroke="#ec4899" stroke-width="2"/>
+        <text x="130" y="65" text-anchor="middle" font-size="11" fill="#9f1239" font-weight="bold">One-to-One ✓</text>
+        <!-- Increasing curve -->
+        <path d="M 40 150 Q 80 130 130 100 Q 180 70 220 60" fill="none" stroke="#16a34a" stroke-width="2.5"/>
+        <!-- Horizontal line intersects once -->
+        <line x1="40" y1="110" x2="220" y2="110" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4"/>
+        <circle cx="130" cy="110" r="4" fill="#dc2626"/>
+        <text x="130" y="170" text-anchor="middle" font-size="9" fill="#9f1239">One intersection</text>
+        <text x="130" y="185" text-anchor="middle" font-size="9" fill="#9f1239">Has inverse ✓</text>
+        <!-- Not one-to-one function -->
+        <rect x="260" y="45" width="220" height="130" rx="6" fill="#fbcfe8" stroke="#ec4899" stroke-width="2"/>
+        <text x="370" y="65" text-anchor="middle" font-size="11" fill="#9f1239" font-weight="bold">Not One-to-One ✗</text>
+        <!-- Parabola -->
+        <path d="M 280 150 Q 330 60 370 60 Q 410 60 460 150" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+        <!-- Horizontal line intersects twice -->
+        <line x1="280" y1="100" x2="460" y2="100" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4"/>
+        <circle cx="320" cy="100" r="4" fill="#dc2626"/>
+        <circle cx="420" cy="100" r="4" fill="#dc2626"/>
+        <text x="370" y="170" text-anchor="middle" font-size="9" fill="#9f1239">Two intersections</text>
+        <text x="370" y="185" text-anchor="middle" font-size="9" fill="#9f1239">No inverse ✗</text>
+        <!-- Explanation -->
+        <rect x="20" y="190" width="460" height="130" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="210" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">🔑 Key Concept:</text>
+        <text x="250" y="230" text-anchor="middle" font-size="10" fill="#92400e">A function has an inverse if and only if it is one-to-one</text>
+        <text x="250" y="248" text-anchor="middle" font-size="10" fill="#92400e">الدالة لها معكوس إذا وفقط إذا كانت واحد لواحد</text>
+        <text x="250" y="268" text-anchor="middle" font-size="10" fill="#92400e">One-to-one: each y-value corresponds to exactly one x-value</text>
+        <text x="250" y="286" text-anchor="middle" font-size="10" fill="#92400e">Examples of one-to-one: linear, cubic, exponential, log</text>
+        <text x="250" y="304" text-anchor="middle" font-size="10" fill="#92400e">Examples NOT one-to-one: quadratic, absolute value, even powers</text>
+    </svg>`,
+    
+    symmetry_about_y_equals_x: `<svg class="svg-graph" width="500" height="380" viewBox="0 0 500 380" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="490" height="370" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+        <text x="250" y="25" text-anchor="middle" font-size="14" fill="#065f46" font-weight="bold">📊 التماثل حول الخط y = x</text>
+        <!-- Coordinate system -->
+        <line x1="50" y1="320" x2="450" y2="320" stroke="#374151" stroke-width="2" marker-end="url(#arrowSym)"/>
+        <line x1="50" y1="320" x2="50" y2="50" stroke="#374151" stroke-width="2" marker-end="url(#arrowSym)"/>
+        <text x="455" y="325" font-size="12" fill="#374151" font-weight="bold">x</text>
+        <text x="40" y="45" font-size="12" fill="#374151" font-weight="bold">y</text>
+        <text x="55" y="335" font-size="10" fill="#374151">O</text>
+        <!-- y = x line -->
+        <line x1="50" y1="320" x2="450" y2="70" stroke="#7c3aed" stroke-width="2" stroke-dasharray="5"/>
+        <text x="420" y="85" font-size="11" fill="#7c3aed" font-weight="bold">y = x</text>
+        <!-- f(x) = x² curve (right half only for one-to-one) -->
+        <path d="M 50 320 Q 100 310 150 280 Q 200 240 250 180 Q 300 120 350 70" fill="none" stroke="#2563eb" stroke-width="2.5"/>
+        <text x="355" y="65" font-size="11" fill="#2563eb" font-weight="bold">f(x) = x², x≥0</text>
+        <!-- f⁻¹(x) = √x curve -->
+        <path d="M 50 320 Q 100 270 150 240 Q 200 210 250 180 Q 300 150 350 130 Q 400 110 450 95" fill="none" stroke="#16a34a" stroke-width="2.5"/>
+        <text x="455" y="90" font-size="11" fill="#16a34a" font-weight="bold">f⁻¹(x) = √x</text>
+        <!-- Corresponding points -->
+        <circle cx="150" cy="280" r="4" fill="#dc2626"/>
+        <text x="130" y="295" font-size="9" fill="#dc2626">(2, 4)</text>
+        <circle cx="280" cy="150" r="4" fill="#dc2626"/>
+        <text x="285" y="140" font-size="9" fill="#dc2626">(4, 2)</text>
+        <circle cx="250" cy="180" r="4" fill="#dc2626"/>
+        <text x="255" y="170" font-size="9" fill="#dc2626">(√8, √8)</text>
+        <!-- Explanation -->
+        <rect x="20" y="340" width="460" height="30" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="360" text-anchor="middle" font-size="10" fill="#92400e" font-weight="bold">f and f⁻¹ are reflections of each other across the line y = x</text>
+        <defs><marker id="arrowSym" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#374151"/></marker></defs>
+    </svg>`,
+    
+    domain_range_swap: `<svg class="svg-graph" width="500" height="340" viewBox="0 0 500 340" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="490" height="330" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="250" y="25" text-anchor="middle" font-size="14" fill="#5b21b6" font-weight="bold">🔄 تبديل المجال والمدى - Domain & Range Swap</text>
+        <!-- f(x) box -->
+        <rect x="20" y="45" width="220" height="120" rx="6" fill="#ddd6fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="130" y="65" text-anchor="middle" font-size="12" fill="#5b21b6" font-weight="bold">f(x)</text>
+        <text x="130" y="85" text-anchor="middle" font-size="10" fill="#5b21b6">Domain: D_f</text>
+        <text x="130" y="102" text-anchor="middle" font-size="10" fill="#5b21b6">Range: R_f</text>
+        <text x="130" y="125" text-anchor="middle" font-size="9" fill="#5b21b6">Example: f(x) = √(x-4)</text>
+        <text x="130" y="142" text-anchor="middle" font-size="9" fill="#5b21b6">D: [4, ∞), R: [0, ∞)</text>
+        <!-- Arrow -->
+        <path d="M 240 105 L 280 105" stroke="#7c3aed" stroke-width="3" marker-end="url(#arrowDR)"/>
+        <text x="260" y="95" text-anchor="middle" font-size="10" fill="#7c3aed" font-weight="bold">inverse</text>
+        <!-- f⁻¹(x) box -->
+        <rect x="280" y="45" width="200" height="120" rx="6" fill="#ddd6fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="380" y="65" text-anchor="middle" font-size="12" fill="#5b21b6" font-weight="bold">f⁻¹(x)</text>
+        <text x="380" y="85" text-anchor="middle" font-size="10" fill="#5b21b6">Domain: R_f</text>
+        <text x="380" y="102" text-anchor="middle" font-size="10" fill="#5b21b6">Range: D_f</text>
+        <text x="380" y="125" text-anchor="middle" font-size="9" fill="#5b21b6">f⁻¹(x) = x² + 4, x≥0</text>
+        <text x="380" y="142" text-anchor="middle" font-size="9" fill="#5b21b6">D: [0, ∞), R: [4, ∞)</text>
+        <!-- Key relationships -->
+        <rect x="20" y="180" width="460" height="140" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="200" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">🔑 Key Relationships:</text>
+        <text x="250" y="220" text-anchor="middle" font-size="10" fill="#92400e">1. Domain of f = Range of f⁻¹</text>
+        <text x="250" y="238" text-anchor="middle" font-size="10" fill="#92400e">2. Range of f = Domain of f⁻¹</text>
+        <text x="250" y="258" text-anchor="middle" font-size="10" fill="#92400e">3. f(f⁻¹(x)) = x for all x in domain of f⁻¹</text>
+        <text x="250" y="276" text-anchor="middle" font-size="10" fill="#92400e">4. f⁻¹(f(x)) = x for all x in domain of f</text>
+        <text x="250" y="296" text-anchor="middle" font-size="10" fill="#92400e">5. Graphs are symmetric about y = x</text>
+        <text x="250" y="314" text-anchor="middle" font-size="10" fill="#92400e" font-weight="bold">6. If (a,b) is on f, then (b,a) is on f⁻¹</text>
+        <defs><marker id="arrowDR" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7c3aed"/></marker></defs>
+    </svg>`,
+    
+    verification_example: `<svg class="svg-graph" width="500" height="360" viewBox="0 0 500 360" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="490" height="350" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="25" text-anchor="middle" font-size="14" fill="#92400e" font-weight="bold">✅ التحقق من الدالة العكسية - Verification</text>
+        <!-- Example -->
+        <rect x="20" y="45" width="460" height="70" rx="6" fill="#fde68a" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="65" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">Example: f(x) = 2x + 3, f⁻¹(x) = (x-3)/2</text>
+        <text x="250" y="85" text-anchor="middle" font-size="10" fill="#92400e">Verify: f(f⁻¹(x)) = x and f⁻¹(f(x)) = x</text>
+        <text x="250" y="105" text-anchor="middle" font-size="10" fill="#92400e">f(f⁻¹(x)) = 2·((x-3)/2) + 3 = x - 3 + 3 = x ✓</text>
+        <!-- Composition 1 -->
+        <rect x="20" y="125" width="220" height="100" rx="6" fill="#fde68a" stroke="#f59e0b" stroke-width="2"/>
+        <text x="130" y="145" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">f(f⁻¹(x)) = x</text>
+        <text x="130" y="165" text-anchor="middle" font-size="10" fill="#92400e">Apply f⁻¹ first:</text>
+        <text x="130" y="182" text-anchor="middle" font-size="10" fill="#92400e">f⁻¹(x) = (x-3)/2</text>
+        <text x="130" y="200" text-anchor="middle" font-size="10" fill="#92400e">Then apply f:</text>
+        <text x="130" y="217" text-anchor="middle" font-size="10" fill="#92400e">2·((x-3)/2) + 3 = x ✓</text>
+        <!-- Composition 2 -->
+        <rect x="260" y="125" width="220" height="100" rx="6" fill="#fde68a" stroke="#f59e0b" stroke-width="2"/>
+        <text x="370" y="145" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">f⁻¹(f(x)) = x</text>
+        <text x="370" y="165" text-anchor="middle" font-size="10" fill="#92400e">Apply f first:</text>
+        <text x="370" y="182" text-anchor="middle" font-size="10" fill="#92400e">f(x) = 2x + 3</text>
+        <text x="370" y="200" text-anchor="middle" font-size="10" fill="#92400e">Then apply f⁻¹:</text>
+        <text x="370" y="217" text-anchor="middle" font-size="10" fill="#92400e">((2x+3)-3)/2 = x ✓</text>
+        <!-- Important note -->
+        <rect x="20" y="235" width="460" height="100" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="250" y="255" text-anchor="middle" font-size="11" fill="#92400e" font-weight="bold">⚠️ Important Notes:</text>
+        <text x="250" y="275" text-anchor="middle" font-size="10" fill="#92400e">• Always verify your inverse by composition</text>
+        <text x="250" y="293" text-anchor="middle" font-size="10" fill="#92400e">• Check domain restrictions carefully</text>
+        <text x="250" y="311" text-anchor="middle" font-size="10" fill="#92400e">• For square roots: remember x ≥ 0 restriction</text>
+        <text x="250" y="329" text-anchor="middle" font-size="10" fill="#92400e">• For rational functions: check where denominator = 0</text>
+    </svg>`
+};
+
+// ==================== EXAM DATA - 12 WRITTEN QUESTIONS ====================
+const originalExamData = {
+    sections: [
+        {
+            id: 'sec1',
+            title: { ar: '🔹 القسم 1: مثال 2 - إيجاد الدوال العكسية (Q1-Q3)', en: '🔹 Section 1: Example 2 - Finding Inverses (Q1-Q3)' },
+            questions: [
+                {
+                    q: { ar: '<strong>السؤال 1 (مثل مثال 2a):</strong> إذا كانت <span class="math-display">f(x) = (x-1)/(x+2)</span>، أوجد الدالة العكسية f⁻¹(x) جبرياً. اذكر مجال ومدى كل من f و f⁻¹.', en: '<strong>Question 1 (like Example 2a):</strong> If <span class="math-display">f(x) = (x-1)/(x+2)</span>, find the inverse function f⁻¹(x) algebraically. State domain and range of both f and f⁻¹.' },
+                    svg: svgGraphs.example2a,
+                    answer: { ar: 'الحل:\n\nالخطوة 1: y = (x-1)/(x+2)\nالمجال: x ≠ -2\n\nالخطوة 2: بدّل x و y\nx = (y-1)/(y+2)\n\nالخطوة 3: حل لـ y\nx(y+2) = y-1\nxy + 2x = y - 1\nxy - y = -2x - 1\ny(x-1) = -(2x+1)\ny = -(2x+1)/(x-1) = (2x+1)/(1-x)\n\nالخطوة 4: f⁻¹(x) = (2x+1)/(1-x)\n\nمجال f⁻¹: x ≠ 1\nمدى f⁻¹: y ≠ -2\n\nالتحقق:\nf(f⁻¹(x)) = f((2x+1)/(1-x))\n= ((2x+1)/(1-x) - 1)/((2x+1)/(1-x) + 2)\n= ((2x+1-1+x)/(1-x))/((2x+1+2-2x)/(1-x))\n= (3x)/(3) = x ✓', en: 'Solution:\n\nStep 1: y = (x-1)/(x+2), Domain: x ≠ -2\n\nStep 2: Swap x and y\nx = (y-1)/(y+2)\n\nStep 3: Solve for y\nx(y+2) = y-1\nxy + 2x = y - 1\nxy - y = -2x - 1\ny(x-1) = -(2x+1)\ny = (2x+1)/(1-x)\n\nStep 4: f⁻¹(x) = (2x+1)/(1-x)\n\nDomain of f⁻¹: x ≠ 1\nRange of f⁻¹: y ≠ -2\n\nVerification: f(f⁻¹(x)) = x ✓' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 2 (مثل مثال 2b):</strong> إذا كانت <span class="math-display">f(x) = √(x-4)</span>، أوجد الدالة العكسية f⁻¹(x). اذكر أي قيود على المجال.', en: '<strong>Question 2 (like Example 2b):</strong> If <span class="math-display">f(x) = √(x-4)</span>, find the inverse function f⁻¹(x). State any domain restrictions.' },
+                    svg: svgGraphs.example2b,
+                    answer: { ar: 'الحل:\n\nالخطوة 1: y = √(x-4)\nالمجال: x ≥ 4 (لأن ما تحت الجذر يجب أن يكون ≥ 0)\nالمدى: y ≥ 0 (الجذر التربيعي دائماً غير سالب)\n\nالخطوة 2: بدّل x و y\nx = √(y-4)\nملاحظة: x ≥ 0 (لأن x يمثل مدى f الأصلي)\n\nالخطوة 3: حل لـ y\nبتربيع الطرفين: x² = y - 4\ny = x² + 4\n\nالخطوة 4: f⁻¹(x) = x² + 4، حيث x ≥ 0\n\nمجال f⁻¹: x ≥ 0\nمدى f⁻¹: y ≥ 4\n\nالتحقق:\nf(f⁻¹(x)) = √((x²+4)-4) = √(x²) = |x| = x (لأن x ≥ 0) ✓\nf⁻¹(f(x)) = (√(x-4))² + 4 = x - 4 + 4 = x ✓\n\n⚠️ مهم: يجب تقييد مجال f⁻¹ بـ x ≥ 0 وإلا لن تكون دالة!', en: 'Solution:\n\nStep 1: y = √(x-4)\nDomain: x ≥ 4, Range: y ≥ 0\n\nStep 2: Swap x and y\nx = √(y-4), note x ≥ 0\n\nStep 3: Solve for y\nx² = y - 4\ny = x² + 4\n\nStep 4: f⁻¹(x) = x² + 4, x ≥ 0\n\nDomain of f⁻¹: x ≥ 0\nRange of f⁻¹: y ≥ 4\n\nVerification:\nf(f⁻¹(x)) = √(x²+4-4) = √(x²) = x (since x ≥ 0) ✓\nf⁻¹(f(x)) = (√(x-4))² + 4 = x ✓\n\n⚠️ Important: Must restrict domain of f⁻¹ to x ≥ 0!' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 3:</strong> اشرح لماذا يجب أن تكون الدالة واحد لواحد (one-to-one) ليكون لها معكوس. استخدم اختبار الخط الأفقي في شرحك.', en: '<strong>Question 3:</strong> Explain why a function must be one-to-one to have an inverse. Use the horizontal line test in your explanation.' },
+                    svg: svgGraphs.horizontal_line_test,
+                    answer: { ar: 'الإجابة:\n\nالدالة تكون واحد لواحد (one-to-one) إذا كان كل قيمة في المدى تقابل قيمة واحدة فقط في المجال. بمعنى آخر، لا يوجد قيمتان مختلفتان x₁ و x₂ في المجال تعطيان نفس القيمة في المدى.\n\nاختبار الخط الأفقي (Horizontal Line Test):\n- ارسم أي خط أفقي على الرسم البياني للدالة\n- إذا قطع الخط الرسم في نقطة واحدة فقط → الدالة واحد لواحد → لها معكوس\n- إذا قطع الخط الرسم في أكثر من نقطة → الدالة ليست واحد لواحد → ليس لها معكوس\n\nأمثلة:\n✓ دوال واحد لواحد: الدوال الخطية، التكعيبية، الأسية، اللوغاريتمية\n✗ دوال ليست واحد لواحد: التربيعية (مثل x²)، القيمة المطلقة\n\nمثال: f(x) = x²\nf(2) = 4 و f(-2) = 4\nنفس المخرج (4) لمدخلين مختلفين (2 و -2)\nلذلك f(x) = x² ليس لها معكوس على مجالها الكامل\n\nالحل: تقييد المجال! مثلاً x ≥ 0 فقط', en: 'Answer:\n\nA function is one-to-one if each y-value corresponds to exactly one x-value. No two different x-values give the same y-value.\n\nHorizontal Line Test:\n- Draw any horizontal line on the graph\n- If it intersects the graph at only one point → one-to-one → has inverse\n- If it intersects at more than one point → not one-to-one → no inverse\n\nExamples:\n✓ One-to-one: linear, cubic, exponential, logarithmic functions\n✗ Not one-to-one: quadratic (like x²), absolute value\n\nExample: f(x) = x²\nf(2) = 4 and f(-2) = 4\nSame output (4) for different inputs (2 and -2)\nSo f(x) = x² has no inverse on its full domain\n\nSolution: Restrict domain! e.g., x ≥ 0 only' }
+                }
+            ]
+        },
+        {
+            id: 'sec2',
+            title: { ar: '🔹 القسم 2: تمارين 2A-2B (Q4-Q6)', en: '🔹 Section 2: Exercises 2A-2B (Q4-Q6)' },
+            questions: [
+                {
+                    q: { ar: '<strong>السؤال 4 (تمرين 2A):</strong> إذا كانت <span class="math-display">f(x) = x³ - 16</span>، أوجد f⁻¹(x) واذكر مجالها ومداها.', en: '<strong>Question 4 (Exercise 2A):</strong> If <span class="math-display">f(x) = x³ - 16</span>, find f⁻¹(x) and state its domain and range.' },
+                    svg: svgGraphs.exercise2A,
+                    answer: { ar: 'الحل:\n\nالخطوة 1: y = x³ - 16\nمجال f: جميع الأعداد الحقيقية ℝ\nمدى f: جميع الأعداد الحقيقية ℝ\n(الدالة التكعيبية واحد لواحد دائماً)\n\nالخطوة 2: بدّل x و y\nx = y³ - 16\n\nالخطوة 3: حل لـ y\ny³ = x + 16\ny = ∛(x + 16)\n\nالخطوة 4: f⁻¹(x) = ∛(x + 16)\n\nمجال f⁻¹: ℝ (جميع الأعداد الحقيقية)\nمدى f⁻¹: ℝ (جميع الأعداد الحقيقية)\n\nالتحقق:\nf(f⁻¹(x)) = (∛(x+16))³ - 16 = x + 16 - 16 = x ✓\nf⁻¹(f(x)) = ∛((x³-16)+16) = ∛(x³) = x ✓\n\nملاحظة: الدالة التكعيبية وجذرها التكعيبي معكوسان طبيعياً', en: 'Solution:\n\nStep 1: y = x³ - 16\nDomain of f: ℝ, Range of f: ℝ\n(Cubic function is always one-to-one)\n\nStep 2: Swap x and y\nx = y³ - 16\n\nStep 3: Solve for y\ny³ = x + 16\ny = ∛(x + 16)\n\nStep 4: f⁻¹(x) = ∛(x + 16)\n\nDomain of f⁻¹: ℝ\nRange of f⁻¹: ℝ\n\nVerification:\nf(f⁻¹(x)) = (∛(x+16))³ - 16 = x ✓\nf⁻¹(f(x)) = ∛(x³-16+16) = ∛(x³) = x ✓\n\nNote: Cubic and cube root are natural inverses' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 5 (تمرين 2B):</strong> إذا كانت <span class="math-display">f(x) = (x+7)/x</span>، أوجد f⁻¹(x) واذكر مجالها ومداها.', en: '<strong>Question 5 (Exercise 2B):</strong> If <span class="math-display">f(x) = (x+7)/x</span>, find f⁻¹(x) and state its domain and range.' },
+                    svg: svgGraphs.exercise2B,
+                    answer: { ar: 'الحل:\n\nالخطوة 1: y = (x+7)/x = 1 + 7/x\nمجال f: x ≠ 0\nمدى f: y ≠ 1 (لأن 7/x لا يمكن أن يساوي 0)\n\nالخطوة 2: بدّل x و y\nx = (y+7)/y\n\nالخطوة 3: حل لـ y\nxy = y + 7\nxy - y = 7\ny(x - 1) = 7\ny = 7/(x - 1)\n\nالخطوة 4: f⁻¹(x) = 7/(x - 1)\n\nمجال f⁻¹: x ≠ 1\nمدى f⁻¹: y ≠ 0\n\nالتحقق:\nf(f⁻¹(x)) = f(7/(x-1))\n= (7/(x-1) + 7)/(7/(x-1))\n= ((7 + 7(x-1))/(x-1))/(7/(x-1))\n= (7 + 7x - 7)/7\n= 7x/7 = x ✓\n\nملاحظة مثيرة: f(x) = 1 + 7/x و f⁻¹(x) = 7/(x-1)\nكلاهما دوال كسرية (hyperbolas)', en: 'Solution:\n\nStep 1: y = (x+7)/x = 1 + 7/x\nDomain of f: x ≠ 0\nRange of f: y ≠ 1\n\nStep 2: Swap x and y\nx = (y+7)/y\n\nStep 3: Solve for y\nxy = y + 7\nxy - y = 7\ny(x-1) = 7\ny = 7/(x-1)\n\nStep 4: f⁻¹(x) = 7/(x-1)\n\nDomain of f⁻¹: x ≠ 1\nRange of f⁻¹: y ≠ 0\n\nVerification:\nf(f⁻¹(x)) = f(7/(x-1)) = (7/(x-1)+7)/(7/(x-1))\n= (7+7(x-1))/7 = 7x/7 = x ✓\n\nInteresting note: Both f and f⁻¹ are hyperbolas' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 6:</strong> قارن بين مجال f ومدى f⁻¹ في السؤال 5. ماذا تلاحظ؟', en: '<strong>Question 6:</strong> Compare the domain of f and range of f⁻¹ in Question 5. What do you notice?' },
+                    svg: svgGraphs.domain_range_swap,
+                    answer: { ar: 'المقارنة:\n\nمن السؤال 5:\n- مجال f: x ≠ 0 (جميع الأعداد الحقيقية ما عدا 0)\n- مدى f: y ≠ 1 (جميع الأعداد الحقيقية ما عدا 1)\n- مجال f⁻¹: x ≠ 1 (جميع الأعداد الحقيقية ما عدا 1)\n- مدى f⁻¹: y ≠ 0 (جميع الأعداد الحقيقية ما عدا 0)\n\nالملاحظة المهمة:\n✓ مجال f = مدى f⁻¹ (كلاهما: كل الأعداد ما عدا 0)\n✓ مدى f = مجال f⁻¹ (كلاهما: كل الأعداد ما عدا 1)\n\nهذا ليس مصادفة! هذه خاصية عامة للدوال العكسية:\n\nالقاعدة العامة:\n• Domain of f = Range of f⁻¹\n• Range of f = Domain of f⁻¹\n\nالسبب:\nعندما نبدّل x و y لإيجاد المعكوس، فإن:\n- قيم x الأصلية (مجال f) تصبح قيم y الجديدة (مدى f⁻¹)\n- قيم y الأصلية (مدى f) تصبح قيم x الجديدة (مجال f⁻¹)\n\nالتفسير البياني:\nالنقطة (a, b) على رسم f تقابلها النقطة (b, a) على رسم f⁻¹\nالرسمان متماثلان حول الخط y = x', en: 'Comparison:\n\nFrom Question 5:\n- Domain of f: x ≠ 0\n- Range of f: y ≠ 1\n- Domain of f⁻¹: x ≠ 1\n- Range of f⁻¹: y ≠ 0\n\nImportant observation:\n✓ Domain of f = Range of f⁻¹ (both: all except 0)\n✓ Range of f = Domain of f⁻¹ (both: all except 1)\n\nThis is not coincidence! This is a general property of inverse functions:\n\nGeneral Rule:\n• Domain of f = Range of f⁻¹\n• Range of f = Domain of f⁻¹\n\nReason:\nWhen we swap x and y to find inverse:\n- Original x values (domain of f) become new y values (range of f⁻¹)\n- Original y values (range of f) become new x values (domain of f⁻¹)\n\nGraphical interpretation:\nPoint (a,b) on f corresponds to point (b,a) on f⁻¹\nThe graphs are symmetric about y = x' }
+                }
+            ]
+        },
+        {
+            id: 'sec3',
+            title: { ar: '🔹 القسم 3: تمرين 2C - حالة خاصة (Q7-Q8)', en: '🔹 Section 3: Exercise 2C - Special Case (Q7-Q8)' },
+            questions: [
+                {
+                    q: { ar: '<strong>السؤال 7 (تمرين 2C):</strong> إذا كانت <span class="math-display">f(x) = √(x²-20)</span>، هل للدالة معكوس؟ اشرح باستخدام اختبار الخط الأفقي. إذا لم يكن لها معكوس، كيف يمكن تعديل المجال ليكون لها معكوس؟', en: '<strong>Question 7 (Exercise 2C):</strong> If <span class="math-display">f(x) = √(x²-20)</span>, does the function have an inverse? Explain using horizontal line test. If not, how can we restrict the domain to make it have an inverse?' },
+                    svg: svgGraphs.exercise2C,
+                    answer: { ar: 'الحل:\n\nالخطوة 1: تحديد مجال f\nx² - 20 ≥ 0\nx² ≥ 20\n|x| ≥ √20 = 2√5\nإذن المجال: x ≤ -2√5 أو x ≥ 2√5\n\nالخطوة 2: اختبار الخط الأفقي\nلنختبر قيمتين:\nf(5) = √(25-20) = √5\nf(-5) = √(25-20) = √5\n\nنفس المخرج (√5) لمدخلين مختلفين (5 و -5)!\n\nإذن f(x) = √(x²-20) ليست واحد لواحد على مجالها الكامل.\n\nالخطوة 3: تقييد المجال\nلجعل الدالة واحد لواحد، نقيد المجال إلى:\nالخيار 1: x ≥ 2√5 (الجزء الأيمن فقط)\nأو\nالخيار 2: x ≤ -2√5 (الجزء الأيسر فقط)\n\nعادة نختار x ≥ 2√5\n\nالخطوة 4: إيجاد المعكوس مع المجال المقيد\ny = √(x²-20), x ≥ 2√5\ny² = x² - 20\nx² = y² + 20\nx = √(y²+20) (نأخذ الجذر الموجب لأن x ≥ 2√5 > 0)\n\nf⁻¹(x) = √(x²+20), x ≥ 0\n\nمجال f⁻¹: x ≥ 0 (لأن مدى f الأصلي هو y ≥ 0)\nمدى f⁻¹: y ≥ 2√5\n\nالتحقق:\nf(f⁻¹(x)) = √((√(x²+20))²-20) = √(x²+20-20) = √(x²) = x ✓ (لأن x ≥ 0)', en: 'Solution:\n\nStep 1: Find domain of f\nx² - 20 ≥ 0\nx² ≥ 20\n|x| ≥ 2√5\nDomain: x ≤ -2√5 or x ≥ 2√5\n\nStep 2: Horizontal line test\nf(5) = √(25-20) = √5\nf(-5) = √(25-20) = √5\n\nSame output (√5) for different inputs (5 and -5)!\n\nSo f(x) = √(x²-20) is NOT one-to-one on its full domain.\n\nStep 3: Restrict domain\nTo make it one-to-one, restrict to:\nOption 1: x ≥ 2√5 (right part only)\nor\nOption 2: x ≤ -2√5 (left part only)\n\nUsually choose x ≥ 2√5\n\nStep 4: Find inverse with restricted domain\ny = √(x²-20), x ≥ 2√5\ny² = x² - 20\nx² = y² + 20\nx = √(y²+20) (positive root since x ≥ 2√5 > 0)\n\nf⁻¹(x) = √(x²+20), x ≥ 0\n\nDomain of f⁻¹: x ≥ 0\nRange of f⁻¹: y ≥ 2√5\n\nVerification:\nf(f⁻¹(x)) = √((√(x²+20))²-20) = √(x²) = x ✓ (since x ≥ 0)' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 8:</strong> ارسم بيانياً f(x) = √(x²-20) مع تقييد المجال x ≥ 2√5، وارسم f⁻¹(x) = √(x²+20) على نفس المحاور. وضح خط التماثل y = x.', en: '<strong>Question 8:</strong> Graph f(x) = √(x²-20) with domain restriction x ≥ 2√5, and graph f⁻¹(x) = √(x²+20) on the same axes. Show the line of symmetry y = x.' },
+                    svg: svgGraphs.symmetry_about_y_equals_x,
+                    answer: { ar: 'الرسم البياني:\n\n1. ارسم المحاور x و y\n\n2. ارسم الخط y = x (خط متقطع يميل بزاوية 45°)\n\n3. ارسم f(x) = √(x²-20), x ≥ 2√5:\n   - تبدأ من النقطة (2√5, 0) ≈ (4.47, 0)\n   - تزداد ببطء\n   - نقاط: (5, √5), (6, 4), (10, √80)\n   - الشكل: نصف_hyperbola_ في الربع الأول\n\n4. ارسم f⁻¹(x) = √(x²+20), x ≥ 0:\n   - تبدأ من النقطة (0, 2√5) ≈ (0, 4.47)\n   - تزداد ببطء\n   - نقاط: (√5, 5), (4, 6), (√80, 10)\n   - الشكل: نصف_hyperbola_ في الربع الأول\n\n5. لاحظ التماثل:\n   - كل نقطة (a, b) على f تقابلها (b, a) على f⁻¹\n   - الرسمان متماثلان حول الخط y = x\n   - مثال: (5, √5) على f ↔ (√5, 5) على f⁻¹\n\n6. التقاطع مع y = x:\n   حل √(x²-20) = x\n   x² - 20 = x²\n   -20 = 0 (مستحيل!)\n   إذن لا يوجد تقاطع بين f و y = x\n   (لكن f و f⁻¹ يتقاطعان عند نقاط أخرى)', en: 'Graph:\n\n1. Draw x and y axes\n\n2. Draw line y = x (dashed line at 45°)\n\n3. Graph f(x) = √(x²-20), x ≥ 2√5:\n   - Starts at (2√5, 0) ≈ (4.47, 0)\n   - Increases slowly\n   - Points: (5, √5), (6, 4), (10, √80)\n   - Shape: half-hyperbola in first quadrant\n\n4. Graph f⁻¹(x) = √(x²+20), x ≥ 0:\n   - Starts at (0, 2√5) ≈ (0, 4.47)\n   - Increases slowly\n   - Points: (√5, 5), (4, 6), (√80, 10)\n   - Shape: half-hyperbola in first quadrant\n\n5. Observe symmetry:\n   - Each point (a,b) on f corresponds to (b,a) on f⁻¹\n   - Graphs are symmetric about y = x\n   - Example: (5, √5) on f ↔ (√5, 5) on f⁻¹\n\n6. Intersection with y = x:\n   Solve √(x²-20) = x\n   x² - 20 = x²\n   -20 = 0 (impossible!)\n   So no intersection between f and y = x\n   (But f and f⁻¹ may intersect at other points)' }
+                }
+            ]
+        },
+        {
+            id: 'sec4',
+            title: { ar: '🔹 القسم 4: مسائل إضافية (Q9-Q10)', en: '🔹 Section 4: Additional Problems (Q9-Q10)' },
+            questions: [
+                {
+                    q: { ar: '<strong>السؤال 9:</strong> إذا كانت <span class="math-display">f(x) = (2x-3)/(x+1)</span>، أوجد f⁻¹(x) و تحقق من صحة إجابتك بالتعويض.', en: '<strong>Question 9:</strong> If <span class="math-display">f(x) = (2x-3)/(x+1)</span>, find f⁻¹(x) and verify your answer by substitution.' },
+                    svg: svgGraphs.verification_example,
+                    answer: { ar: 'الحل:\n\nالخطوة 1: y = (2x-3)/(x+1)\nمجال f: x ≠ -1\n\nالخطوة 2: بدّل x و y\nx = (2y-3)/(y+1)\n\nالخطوة 3: حل لـ y\nx(y+1) = 2y - 3\nxy + x = 2y - 3\nxy - 2y = -x - 3\ny(x - 2) = -(x + 3)\ny = -(x+3)/(x-2) = (x+3)/(2-x)\n\nالخطوة 4: f⁻¹(x) = (x+3)/(2-x)\nمجال f⁻¹: x ≠ 2\n\nالتحقق:\n\nf(f⁻¹(x)) = f((x+3)/(2-x))\n= (2·(x+3)/(2-x) - 3)/((x+3)/(2-x) + 1)\n= ((2(x+3) - 3(2-x))/(2-x))/((x+3 + 2-x)/(2-x))\n= ((2x+6-6+3x)/(2-x))/((5)/(2-x))\n= (5x/(2-x))/(5/(2-x))\n= 5x/5 = x ✓\n\nf⁻¹(f(x)) = f⁻¹((2x-3)/(x+1))\n= ((2x-3)/(x+1) + 3)/(2 - (2x-3)/(x+1))\n= ((2x-3+3(x+1))/(x+1))/((2(x+1)-(2x-3))/(x+1))\n= ((2x-3+3x+3)/(x+1))/((2x+2-2x+3)/(x+1))\n= (5x/(x+1))/(5/(x+1))\n= 5x/5 = x ✓\n\nإذن الإجابة صحيحة!', en: 'Solution:\n\nStep 1: y = (2x-3)/(x+1), Domain: x ≠ -1\n\nStep 2: Swap x and y\nx = (2y-3)/(y+1)\n\nStep 3: Solve for y\nx(y+1) = 2y - 3\nxy + x = 2y - 3\nxy - 2y = -x - 3\ny(x-2) = -(x+3)\ny = (x+3)/(2-x)\n\nStep 4: f⁻¹(x) = (x+3)/(2-x), Domain: x ≠ 2\n\nVerification:\nf(f⁻¹(x)) = f((x+3)/(2-x))\n= (2(x+3)/(2-x) - 3)/((x+3)/(2-x) + 1)\n= ((2x+6-6+3x)/(2-x))/((x+3+2-x)/(2-x))\n= (5x/(2-x))/(5/(2-x)) = 5x/5 = x ✓\n\nf⁻¹(f(x)) = f⁻¹((2x-3)/(x+1))\n= ((2x-3)/(x+1) + 3)/(2 - (2x-3)/(x+1))\n= ((2x-3+3x+3)/(x+1))/((2x+2-2x+3)/(x+1))\n= (5x/(x+1))/(5/(x+1)) = 5x/5 = x ✓\n\nAnswer verified!' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 10:</strong> إذا كانت <span class="math-display">f(x) = 3x³ + 5</span>، أوجد f⁻¹(x). ما نوع الدالة f؟ هل هي واحد لواحد؟', en: '<strong>Question 10:</strong> If <span class="math-display">f(x) = 3x³ + 5</span>, find f⁻¹(x). What type of function is f? Is it one-to-one?' },
+                    answer: { ar: 'الحل:\n\nنوع الدالة:\nf(x) = 3x³ + 5 هي دالة تكعيبية (cubic function)\nالدوال التكعيبية دائماً واحد لواحد لأنها:\n- متزايدة دائماً (أو متناقصة دائماً)\n- لا تغير اتجاهها\n- تمر باختبار الخط الأفقي\n\nإيجاد المعكوس:\n\nالخطوة 1: y = 3x³ + 5\nمجال f: ℝ\nمدى f: ℝ\n\nالخطوة 2: بدّل x و y\nx = 3y³ + 5\n\nالخطوة 3: حل لـ y\nx - 5 = 3y³\ny³ = (x-5)/3\ny = ∛((x-5)/3)\n\nالخطوة 4: f⁻¹(x) = ∛((x-5)/3)\n\nمجال f⁻¹: ℝ\nمدى f⁻¹: ℝ\n\nالتحقق:\nf(f⁻¹(x)) = 3(∛((x-5)/3))³ + 5\n= 3·((x-5)/3) + 5\n= (x-5) + 5 = x ✓\n\nf⁻¹(f(x)) = ∛((3x³+5-5)/3)\n= ∛(3x³/3)\n= ∛(x³) = x ✓\n\nملاحظة: الدالة التكعيبية والجذر التكعيبي معكوسان طبيعيان', en: 'Solution:\n\nFunction type:\nf(x) = 3x³ + 5 is a cubic function\nCubic functions are always one-to-one because:\n- Always increasing (or always decreasing)\n- Never change direction\n- Pass horizontal line test\n\nFinding inverse:\n\nStep 1: y = 3x³ + 5\nDomain of f: ℝ, Range of f: ℝ\n\nStep 2: Swap x and y\nx = 3y³ + 5\n\nStep 3: Solve for y\nx - 5 = 3y³\ny³ = (x-5)/3\ny = ∛((x-5)/3)\n\nStep 4: f⁻¹(x) = ∛((x-5)/3)\n\nDomain of f⁻¹: ℝ\nRange of f⁻¹: ℝ\n\nVerification:\nf(f⁻¹(x)) = 3(∛((x-5)/3))³ + 5\n= 3·((x-5)/3) + 5 = (x-5) + 5 = x ✓\n\nf⁻¹(f(x)) = ∛((3x³+5-5)/3)\n= ∛(3x³/3) = ∛(x³) = x ✓\n\nNote: Cubic and cube root are natural inverses' }
+                }
+            ]
+        },
+        {
+            id: 'sec5',
+            title: { ar: '🔹 القسم 5: مسائل متقدمة (Q11-Q12)', en: '🔹 Section 5: Advanced Problems (Q11-Q12)' },
+            questions: [
+                {
+                    q: { ar: '<strong>السؤال 11:</strong> إذا كانت <span class="math-display">f(x) = (x-2)/(x+3)</span> و <span class="math-display">g(x) = (3x+2)/(1-x)</span>، أثبت أن g = f⁻¹ بالتعويض المباشر.', en: '<strong>Question 11:</strong> If <span class="math-display">f(x) = (x-2)/(x+3)</span> and <span class="math-display">g(x) = (3x+2)/(1-x)</span>, prove that g = f⁻¹ by direct substitution.' },
+                    svg: svgGraphs.inverse_steps,
+                    answer: { ar: 'البرهان:\n\nلإثبات أن g = f⁻¹، يجب أن نثبت أن:\nf(g(x)) = x و g(f(x)) = x\n\nالجزء 1: f(g(x)) = x\n\nf(g(x)) = f((3x+2)/(1-x))\n= ((3x+2)/(1-x) - 2)/((3x+2)/(1-x) + 3)\n\nبسط الكسر:\n(3x+2)/(1-x) - 2 = (3x+2 - 2(1-x))/(1-x)\n= (3x+2-2+2x)/(1-x)\n= 5x/(1-x)\n\nمقام الكسر:\n(3x+2)/(1-x) + 3 = (3x+2 + 3(1-x))/(1-x)\n= (3x+2+3-3x)/(1-x)\n= 5/(1-x)\n\nإذن:\nf(g(x)) = (5x/(1-x))/(5/(1-x))\n= 5x/5 = x ✓\n\nالجزء 2: g(f(x)) = x\n\ng(f(x)) = g((x-2)/(x+3))\n= (3·(x-2)/(x+3) + 2)/(1 - (x-2)/(x+3))\n\nبسط الكسر:\n3(x-2)/(x+3) + 2 = (3x-6+2(x+3))/(x+3)\n= (3x-6+2x+6)/(x+3)\n= 5x/(x+3)\n\nمقام الكسر:\n1 - (x-2)/(x+3) = (x+3-(x-2))/(x+3)\n= (x+3-x+2)/(x+3)\n= 5/(x+3)\n\nإذن:\ng(f(x)) = (5x/(x+3))/(5/(x+3))\n= 5x/5 = x ✓\n\nبما أن f(g(x)) = x و g(f(x)) = x، إذن g = f⁻¹ ✓\n\nملاحظة: يمكن أيضاً إيجاد f⁻¹ مباشرة:\ny = (x-2)/(x+3)\nx = (y-2)/(y+3)\nx(y+3) = y-2\nxy + 3x = y - 2\nxy - y = -3x - 2\ny(x-1) = -(3x+2)\ny = (3x+2)/(1-x) = g(x) ✓', en: 'Proof:\n\nTo prove g = f⁻¹, we must show:\nf(g(x)) = x and g(f(x)) = x\n\nPart 1: f(g(x)) = x\n\nf(g(x)) = f((3x+2)/(1-x))\n= ((3x+2)/(1-x) - 2)/((3x+2)/(1-x) + 3)\n\nNumerator:\n(3x+2)/(1-x) - 2 = (3x+2-2(1-x))/(1-x)\n= (3x+2-2+2x)/(1-x) = 5x/(1-x)\n\nDenominator:\n(3x+2)/(1-x) + 3 = (3x+2+3(1-x))/(1-x)\n= (3x+2+3-3x)/(1-x) = 5/(1-x)\n\nSo: f(g(x)) = (5x/(1-x))/(5/(1-x)) = 5x/5 = x ✓\n\nPart 2: g(f(x)) = x\n\ng(f(x)) = g((x-2)/(x+3))\n= (3(x-2)/(x+3) + 2)/(1 - (x-2)/(x+3))\n\nNumerator:\n3(x-2)/(x+3) + 2 = (3x-6+2x+6)/(x+3) = 5x/(x+3)\n\nDenominator:\n1 - (x-2)/(x+3) = (x+3-x+2)/(x+3) = 5/(x+3)\n\nSo: g(f(x)) = (5x/(x+3))/(5/(x+3)) = 5x/5 = x ✓\n\nSince f(g(x)) = x and g(f(x)) = x, therefore g = f⁻¹ ✓\n\nNote: Can also find f⁻¹ directly:\ny = (x-2)/(x+3)\nx = (y-2)/(y+3)\nx(y+3) = y-2\nxy + 3x = y - 2\nxy - y = -3x - 2\ny(x-1) = -(3x+2)\ny = (3x+2)/(1-x) = g(x) ✓' }
+                },
+                {
+                    q: { ar: '<strong>السؤال 12:</strong> إذا كانت <span class="math-display">f(x) = √(x+5)</span> مع مجال x ≥ -5، أوجد f⁻¹(x) واذكر مجالها. لماذا يجب تقييد مجال f⁻¹؟', en: '<strong>Question 12:</strong> If <span class="math-display">f(x) = √(x+5)</span> with domain x ≥ -5, find f⁻¹(x) and state its domain. Why must we restrict the domain of f⁻¹?' },
+                    answer: { ar: 'الحل:\n\nالخطوة 1: y = √(x+5)\nمجال f: x ≥ -5\nمدى f: y ≥ 0 (لأن الجذر التربيعي دائماً غير سالب)\n\nالخطوة 2: بدّل x و y\nx = √(y+5)\nملاحظة مهمة: x ≥ 0 (لأن x يمثل مدى f الأصلي)\n\nالخطوة 3: حل لـ y\nبتربيع الطرفين: x² = y + 5\ny = x² - 5\n\nالخطوة 4: f⁻¹(x) = x² - 5، حيث x ≥ 0\n\nمجال f⁻¹: x ≥ 0\nمدى f⁻¹: y ≥ -5\n\nلماذا يجب تقييد مجال f⁻¹ بـ x ≥ 0؟\n\nالسبب 1: مدى f الأصلي هو y ≥ 0\nعند إيجاد المعكوس، مدى f يصبح مجال f⁻¹\nإذن مجال f⁻¹ يجب أن يكون x ≥ 0\n\nالسبب 2: بدون التقييد، f⁻¹(x) = x² - 5 ستكون دالة تربيعية كاملة\nالدالة التربيعية ليست واحد لواحد (مثلاً f⁻¹(2) = -1 و f⁻¹(-2) = -1)\nلكن مع التقييد x ≥ 0، تصبح f⁻¹ نصف قطع مكافئ (واحد لواحد)\n\nالسبب 3: التحقق من التعريف\nf(f⁻¹(x)) = √((x²-5)+5) = √(x²) = |x| = x (فقط إذا x ≥ 0)\n\nإذا سمحنا بـ x < 0:\nf(f⁻¹(-3)) = √((-3)²-5+5) = √9 = 3 ≠ -3 ✗\n\nإذن التقييد x ≥ 0 ضروري!\n\nالرسم البياني:\n- f(x) = √(x+5): نصف قطع مكافئ أفقي يبدأ من (-5, 0)\n- f⁻¹(x) = x² - 5, x≥0: نصف قطع مكافئ رأسي يبدأ من (0, -5)\n- الرسمان متماثلان حول الخط y = x', en: 'Solution:\n\nStep 1: y = √(x+5)\nDomain of f: x ≥ -5\nRange of f: y ≥ 0 (square root always non-negative)\n\nStep 2: Swap x and y\nx = √(y+5)\nImportant note: x ≥ 0 (since x represents original range of f)\n\nStep 3: Solve for y\nSquare both sides: x² = y + 5\ny = x² - 5\n\nStep 4: f⁻¹(x) = x² - 5, where x ≥ 0\n\nDomain of f⁻¹: x ≥ 0\nRange of f⁻¹: y ≥ -5\n\nWhy must we restrict domain of f⁻¹ to x ≥ 0?\n\nReason 1: Range of original f is y ≥ 0\nWhen finding inverse, range of f becomes domain of f⁻¹\nSo domain of f⁻¹ must be x ≥ 0\n\nReason 2: Without restriction, f⁻¹(x) = x² - 5 would be full quadratic\nQuadratic is not one-to-one (e.g., f⁻¹(2) = -1 and f⁻¹(-2) = -1)\nBut with restriction x ≥ 0, f⁻¹ becomes half-parabola (one-to-one)\n\nReason 3: Verification of definition\nf(f⁻¹(x)) = √((x²-5)+5) = √(x²) = |x| = x (only if x ≥ 0)\n\nIf we allow x < 0:\nf(f⁻¹(-3)) = √((-3)²-5+5) = √9 = 3 ≠ -3 ✗\n\nSo restriction x ≥ 0 is necessary!\n\nGraph:\n- f(x) = √(x+5): horizontal half-parabola starting at (-5, 0)\n- f⁻¹(x) = x² - 5, x≥0: vertical half-parabola starting at (0, -5)\n- Graphs are symmetric about y = x' }
+                }
+            ]
+        }
+    ]
+};
+
+function setLanguage(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.getElementById('btn-ar').classList.toggle('active', lang === 'ar');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.body.classList.toggle('en-mode', lang === 'en');
+    
+    document.querySelectorAll('[data-ar]').forEach(el => {
+        el.textContent = el.getAttribute('data-' + lang);
+    });
+    
+    document.querySelectorAll('[data-placeholder-ar]').forEach(el => {
+        el.placeholder = el.getAttribute('data-placeholder-' + lang);
+    });
+    
+    renderExam(); saveState(false);
+}
+
+function renderExam() {
+    const container = document.getElementById('exam-content');
+    let html = '';
+    let globalIdx = 0;
+    
+    examData.sections.forEach((section, secIdx) => {
+        const badgeClass = ['module-1', 'module-2', 'module-3', 'module-4', 'module-5'][secIdx];
+        html += '<section class="bg-white p-6 rounded-2xl shadow-lg border-2 border-amber-100">';
+        html += '<div class="text-center mb-4"><span class="module-badge ' + badgeClass + '">' + section.title[currentLang] + '</span></div>';
+        html += '<div class="space-y-4">';
+        
+        section.questions.forEach((q) => {
+            html += '<div class="question-card" id="q-' + globalIdx + '">';
+            html += '<strong class="text-amber-700 text-lg">' + (currentLang === 'ar' ? 'السؤال ' : 'Question ') + (globalIdx + 1) + '</strong><br>';
+            html += '<div class="mt-2 arabic-math">' + q.q[currentLang] + '</div>';
+            if (q.svg) html += '<div class="graph-container">' + q.svg + '</div>';
+            
+            html += '<div class="mt-4">';
+            html += '<label class="block text-sm font-medium text-gray-700 mb-2">' + (currentLang === 'ar' ? 'اكتب حلك هنا:' : 'Write your solution here:') + '</label>';
+            html += '<textarea id="answer_' + globalIdx + '" class="answer-area" rows="8" placeholder="' + (currentLang === 'ar' ? 'اكتب خطوات الحل هنا...' : 'Write solution steps here...') + '"></textarea>';
+            html += '</div>';
+            
+            html += '<button onclick="toggleSolution(' + globalIdx + ')" class="show-answer-btn">' + (currentLang === 'ar' ? '📖 أظهر الحل النموذجي' : '📖 Show Model Solution') + '</button>';
+            
+            html += '<div id="solution-' + globalIdx + '" class="solution-box">';
+            html += '<strong class="text-green-700 text-lg">' + (currentLang === 'ar' ? '✅ الحل النموذجي:' : '✅ Model Solution:') + '</strong><br>';
+            html += '<pre class="text-sm text-green-700 mt-2 arabic-math" style="white-space: pre-wrap; font-family: \'Amiri\', serif;">' + q.answer[currentLang] + '</pre>';
+            html += '</div>';
+            html += '</div>';
+            globalIdx++;
+        });
+        
+        html += '</div></section>';
+    });
+    
+    container.innerHTML = html;
+    
+    // Restore answers after rendering
+    const saved = loadState();
+    if (saved && saved.answers) {
+        restoreAnswers(saved.answers);
+    }
+    
+    // Setup listeners for new textareas
+    setupInputListeners();
+}
+
+function startTimer() {
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay();
+        if (timeRemaining % 60 === 0) saveState(false);
+        if (timeRemaining <= 600) document.getElementById('timer').classList.add('timer-warning');
+        if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            alert(currentLang === 'ar' ? "⏰ انتهى الوقت!" : "⏰ Time's up!");
+            gradeExam();
+        }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    const m = Math.floor(timeRemaining / 60);
+    const s = timeRemaining % 60;
+    document.getElementById('timer').textContent = m.toString().padStart(2,'0') + ':' + s.toString().padStart(2,'0');
+}
+
+function showAllSolutions() {
+    answersVisible = !answersVisible;
+    document.querySelectorAll('.solution-box').forEach(el => {
+        if (answersVisible) {
+            el.classList.add('show');
+        } else {
+            el.classList.remove('show');
+        }
+    });
+    saveState(false);
+}
+
+function toggleSolution(qId) {
+    const solution = document.getElementById('solution-' + qId);
+    solution.classList.toggle('show');
+}
+
+function gradeExam() {
+    let answeredCount = 0;
+    const sectionScores = [0, 0, 0, 0, 0];
+    const sectionTotals = [3, 3, 2, 2, 2];
+    
+    let globalIdx = 0;
+    examData.sections.forEach((section, secIdx) => {
+        section.questions.forEach(() => {
+            const input = document.getElementById('answer_'+globalIdx);
+            if (input && input.value.trim().length > 20) {
+                answeredCount++;
+                sectionScores[secIdx]++;
+            }
+            globalIdx++;
+        });
+    });
+    
+    const score = Math.round((answeredCount / TOTAL_QUESTIONS) * 100);
+    document.getElementById('res-total').textContent = answeredCount + ' / ' + TOTAL_QUESTIONS + ' ' + (currentLang === 'ar' ? 'أُجيب عنها' : 'answered');
+    document.getElementById('res-name').textContent = document.getElementById('studentName').value || (currentLang === 'ar' ? 'بطل' : 'Champion');
+    document.getElementById('res-date').textContent = new Date().toLocaleDateString(currentLang === 'ar' ? 'ar-AE' : 'en-US');
+    
+    const pc = document.getElementById('sections-performance');
+    pc.innerHTML = '';
+    examData.sections.forEach((s, idx) => {
+        pc.innerHTML += '<div class="flex justify-between items-center p-3 bg-white rounded-lg"><span class="text-gray-700">' + s.title[currentLang] + '</span><span class="font-bold text-amber-700">' + sectionScores[idx] + '/' + sectionTotals[idx] + '</span></div>';
+    });
+    
+    const badge = document.getElementById('success-badge');
+    document.getElementById('success-percent').textContent = score + '%';
+    
+    if (currentLang === 'ar') {
+        if (score >= 90) { badge.textContent = '🌟 ممتاز جداً!'; badge.className = 'success-badge grade-excellent'; }
+        else if (score >= 75) { badge.textContent = '👏 ممتاز!'; badge.className = 'success-badge grade-good'; }
+        else if (score >= 50) { badge.textContent = '👍 جيد'; badge.className = 'success-badge grade-pass'; }
+        else { badge.textContent = '💪 حاول مرة أخرى'; badge.className = 'success-badge grade-fail'; }
+    } else {
+        if (score >= 90) { badge.textContent = '🌟 Outstanding!'; badge.className = 'success-badge grade-excellent'; }
+        else if (score >= 75) { badge.textContent = '👏 Excellent!'; badge.className = 'success-badge grade-good'; }
+        else if (score >= 50) { badge.textContent = '👍 Good'; badge.className = 'success-badge grade-pass'; }
+        else { badge.textContent = '💪 Try Again'; badge.className = 'success-badge grade-fail'; }
+    }
+    
+    document.getElementById('results-panel').classList.remove('hidden');
+    document.getElementById('results-panel').scrollIntoView({ behavior: 'smooth' });
+    if (timerInterval) clearInterval(timerInterval);
+}
+
+function sendResultsToEmail() {
+    const btn = document.getElementById('sendEmailBtn');
+    const status = document.getElementById('emailStatus');
+    btn.disabled = true;
+    btn.textContent = currentLang === 'ar' ? '⏳ جاري الإرسال...' : '⏳ Sending...';
+    
+    const name = document.getElementById('studentName').value || 'N/A';
+    const studentClass = document.getElementById('studentClass').value || 'N/A';
+    const date = document.getElementById('examDate').value || new Date().toLocaleDateString();
+    
+    let answersHTML = '<div style="font-family:Arial; direction:rtl;">';
+    answersHTML += '<h2>📝 ' + (currentLang === 'ar' ? 'إجابات امتحان الدوال العكسية' : 'Inverse Functions Exam Answers') + '</h2>';
+    answersHTML += '<p><strong>' + (currentLang === 'ar' ? 'الاسم' : 'Name') + ':</strong> ' + name + '</p>';
+    answersHTML += '<p><strong>' + (currentLang === 'ar' ? 'الشعبة' : 'Class') + ':</strong> ' + studentClass + '</p>';
+    answersHTML += '<p><strong>' + (currentLang === 'ar' ? 'التاريخ' : 'Date') + ':</strong> ' + date + '</p>';
+    answersHTML += '<hr><h3>' + (currentLang === 'ar' ? 'إجابات الطالب:' : 'Student Answers:') + '</h3>';
+    
+    let globalIdx = 0;
+    examData.sections.forEach((section) => {
+        answersHTML += '<h4 style="background:#fef3c7; padding:8px; margin-top:10px;">' + section.title.ar + '</h4>';
+        answersHTML += '<table style="width:100%; border-collapse:collapse;">';
+        section.questions.forEach((q) => {
+            const input = document.getElementById('answer_'+globalIdx);
+            const answerText = input ? input.value : '';
+            answersHTML += '<tr style="border-bottom:1px solid #ddd;"><td style="padding:8px; font-weight:bold;">' + (globalIdx+1) + '</td><td style="padding:8px;">' + q.q.ar.replace(/<[^>]+>/g, '').substring(0, 60) + '...</td><td style="padding:8px; white-space:pre-wrap;">' + (answerText || (currentLang === 'ar' ? 'لم يجب' : 'No answer')) + '</td></tr>';
+            globalIdx++;
+        });
+        answersHTML += '</table>';
+    });
+    answersHTML += '</div>';
+    
+    const templateParams = {
+        to_email: TARGET_EMAIL,
+        student_name: name,
+        student_class: studentClass,
+        exam_date: date,
+        total_score: document.getElementById('res-total').textContent,
+        success_rate: document.getElementById('success-percent').textContent,
+        grade: document.getElementById('success-badge').textContent,
+        answers_table: answersHTML
+    };
+    
+    emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
+        .then(() => {
+            status.textContent = currentLang === 'ar' ? '✅ تم الإرسال بنجاح!' : '✅ Sent successfully!';
+            status.style.color = '#16a34a';
+            btn.textContent = currentLang === 'ar' ? '✓ تم' : '✓ Sent';
+            alert(currentLang === 'ar' ? 'تم إرسال الإجابات للمعلم بنجاح!' : 'Answers sent to teacher successfully!');
+        })
+        .catch((error) => {
+            status.textContent = currentLang === 'ar' ? '❌ فشل الإرسال' : '❌ Failed to send';
+            status.style.color = '#dc2626';
+            btn.disabled = false;
+            btn.textContent = currentLang === 'ar' ? '📧 حاول مرة أخرى' : '📧 Try Again';
+            alert(currentLang === 'ar' ? 'فشل الإرسال: ' + error.text : 'Failed: ' + error.text);
+        });
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    const saved = loadState();
+    if (saved) {
+        currentLang = saved.lang || 'ar';
+        timeRemaining = saved.timeRemaining !== undefined ? saved.timeRemaining : TOTAL_TIME;
+    }
+    
+    document.getElementById('btn-ar').classList.toggle('active', currentLang === 'ar');
+    document.getElementById('btn-en').classList.toggle('active', currentLang === 'en');
+    document.body.classList.toggle('en-mode', currentLang === 'en');
+    document.documentElement.lang = currentLang;
+    document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+    
+    document.querySelectorAll('[data-ar]').forEach(el => {
+        el.textContent = el.getAttribute('data-' + currentLang);
+    });
+    
+    document.querySelectorAll('[data-placeholder-ar]').forEach(el => {
+        el.placeholder = el.getAttribute('data-placeholder-' + currentLang);
+    });
+    
+    examData = originalExamData;
+    renderExam();
+    if (saved) {
+        if (saved.studentName) document.getElementById('studentName').value = saved.studentName;
+        if (saved.studentClass) document.getElementById('studentClass').value = saved.studentClass;
+        if (saved.examDate) document.getElementById('examDate').value = saved.examDate;
+    }
+    setupInputListeners();
+    startTimer();
+});
+window.addEventListener('beforeunload', () => saveState(false));
+</script>
+</body>
+</html>
